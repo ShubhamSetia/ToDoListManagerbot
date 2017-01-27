@@ -24,8 +24,8 @@ class DBHelper(object):
 		self.conn.execute(stmt,args)
 		self.conn.commit()
 
-	def get_item(self):
+	def get_items(self):
 		stmt = "SELECT description FROM items"
 		return [x[0] for x in self.conn.execute(stmt)]
-						
+
 
