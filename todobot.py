@@ -66,7 +66,7 @@ def handle_updates(updates):
 def build_keyboard(items):
 	keyboard = [[item] for item in items]
 	reply_markup = {"keyboard":keyboard,"one_time_keyboard":True}
-	return jsom.dumps(reply_markup)
+	return json.dumps(reply_markup)
 
 def send_message(text, chat_id, reply_markup = None):
 	text = urllib.parse.quote_plus(text)

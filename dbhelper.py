@@ -12,7 +12,7 @@ class DBHelper(object):
 		self.conn.commit()
 
 
-	def add_item(seft,item_text):
+	def add_item(self,item_text):
 		stmt = "INSERT INTO items (description) VALUES (?)"
 		args = (item_text, )
 		self.conn.execute(stmt,args)
