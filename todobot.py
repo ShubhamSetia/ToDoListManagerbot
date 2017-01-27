@@ -47,22 +47,35 @@ def handle_updates(updates):
 		text = update["message"]["text"]
 		chat = update["message"]["chat"]["id"]
 		items = db.get_items()
-		if text in items:
+		if text == "/done":
+			keyboard = build_keyboard(items)
+			send_message("Select an item to delete", chat, keyboard)
+
+		elif text in items:
 			db.delete_item(text)
 			items = db.get_items()
+			keyboard =  build_keyboard(items)
+			send_message("Select an item to delete",chat, keyboard)	
 		
 		else:
 			db.add_item(text)
 			items = db.get_items()	
+			message = "\n".join(items)
+			send_message(message,chat)	
 
-		message = "\n".join(items)
-		send_message(message,chat)	
+def build_keyboard(items):
+	keyboard = [[item] for item in items]
+	reply_markup = {"keyboard":keyboard,"one_time_keyboard":True}
+	return jsom.dumps(reply_markup)
 
-def send_message(text, chat_id):
+def send_message(text, chat_id, reply_markup = None):
 	text = urllib.parse.quote_plus(text)
 	url = URL + "sendMessage?text={}&chat_id={}".format(text, chat_id)
+	if reply_markup:
+		url += "&reply_markup={}".format(reply_markup)
 	get_url(url)
-    
+
+
 
 def main():
 	db.setup()
